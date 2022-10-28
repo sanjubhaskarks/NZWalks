@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using NZWalks.API.Data;
+
 namespace NZWalks.API
 {
     public class Program
@@ -13,6 +16,11 @@ namespace NZWalks.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<NZWalksDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnection"));
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,7 +33,6 @@ namespace NZWalks.API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
